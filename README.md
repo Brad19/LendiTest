@@ -44,6 +44,7 @@ Improvements:
 - There is not a requirement for a state management tool for now. But in general, if the project is big, bringing some state management tool would give 
   benefits.
 - Add more unit test.
+- As I don't have enough information about the Error scenario, I couldn't do much. But there is a room for improvement with the way how the errors needs to    handled
  
  Given time, I should be able to complete it.
  
