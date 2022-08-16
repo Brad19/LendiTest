@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import {
   Image,
   Share,
@@ -34,17 +34,17 @@ const NewsPage = ({navigation, route}) => {
   const [newsData, setNewsData] = useState({});
   const {id} = route.params;
 
-  navigation.setOptions({
-    headerRight: () => {
-      return (
-        <TouchableOpacity onPress={() => shareContent(newsData)}>
-          <Image source={shareIcon} style={styles.image} />
-        </TouchableOpacity>
-      );
-    },
-  });
+  // navigation.setOptions({
+  //   headerRight: () => {
+  //     return (
+  //       <TouchableOpacity onPress={() => shareContent(newsData)}>
+  //         <Image source={shareIcon} style={styles.image} />
+  //       </TouchableOpacity>
+  //     );
+  //   },
+  // });
 
-  useEffect(() => {
+  useMemo(() => {
     const getNewsById = async () => {
       try {
         const response = await axios.get(
@@ -60,6 +60,18 @@ const NewsPage = ({navigation, route}) => {
     getNewsById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <TouchableOpacity onPress={() => shareContent(newsData)}>
+            <Image source={shareIcon} style={styles.image} />
+          </TouchableOpacity>
+        );
+      },
+    });
+  }, [navigation, newsData]);
 
   return (
     <View>
