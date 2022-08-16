@@ -34,13 +34,16 @@ Considerations:
   which is very popular and efficient in performing unit tests 
   
 Improvements:
-* Due to time constraints, I could not implement other advanced features in the app such as the following
-  - Display News & comments time stamp from now (e.g. 8h, 2 days)
-  - Save favourite news
+* Due to time constraints, I could not implement  the following other advanced features in the app mentioned as an optional requirements
+  - Display News & comments time stamp from now (e.g. 8h, 2 days).
+  - Comments are displayed in a user-friendsly visual hierarchy.
+  - Save favourite news.
   - Ability to display first level comments..
+
 - Secondly we can onboard typescript to this project.
 - There is not a requirement for a state management tool for now. But in general, if the project is big, bringing some state management tool would give 
-  benefits
+  benefits.
+- Add more unit test.
  
  Given time, I should be able to complete it.
  
@@ -48,6 +51,7 @@ Challenges:
 - Because my current repo is bare bone javascript project which i created new from npx init react-native <project> it does not have the eslint
   or module resolver or prettier which i've to add it separately.
 - Latest jest 28.0.2 version has issue and have to downgrade it.
+
  
  
 
