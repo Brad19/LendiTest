@@ -34,17 +34,7 @@ const NewsPage = ({navigation, route}) => {
   const [newsData, setNewsData] = useState({});
   const {id} = route.params;
 
-  // navigation.setOptions({
-  //   headerRight: () => {
-  //     return (
-  //       <TouchableOpacity onPress={() => shareContent(newsData)}>
-  //         <Image source={shareIcon} style={styles.image} />
-  //       </TouchableOpacity>
-  //     );
-  //   },
-  // });
-
-  useMemo(() => {
+  useEffect(() => {
     const getNewsById = async () => {
       try {
         const response = await axios.get(
