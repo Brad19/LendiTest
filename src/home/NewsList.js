@@ -4,6 +4,7 @@ import axios from 'axios';
 import {useDebounce} from 'use-debounce';
 import ListItem from '../components/ListItem';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {getData} from '../utility/storage';
 
 const baseUrl = 'https://api.hackerwebapp.com';
 
@@ -12,6 +13,7 @@ const News = () => {
   const [originalNewsData, setOriginalNewsData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const inputRef = useRef(null);
+  const [loadFavouriteNews, setLoadFavouriteNews] = useState([]);
 
   useEffect(() => {
     const getNewsFromHackerWebApp = async () => {
@@ -23,7 +25,12 @@ const News = () => {
         console.log('e :', e);
       }
     };
+    const getFavoriteNews = async () => {
+      const response = await getData('favouriteNews');
+      setLoadFavouriteNews(response);
+    };
     getNewsFromHackerWebApp();
+    getFavoriteNews();
   }, []);
 
   const debounceSearchTerm = useDebounce(searchTerm, 700);
@@ -70,14 +77,20 @@ const News = () => {
           data={newsData}
           style={styles.list}
           renderItem={({item, index}) => {
-            return <ListItem item={item} index={index + 1} />;
+            return (
+              <ListItem
+                item={item}
+                index={index + 1}
+                favoriteNews={loadFavouriteNews}
+              />
+            );
           }}
           ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
           accessibilityLabel={'newsDataList'}
         />
       ) : (
         <View style={styles.message}>
-          <Text>Oops. Sorry, Please try again later</Text>
+          <Text>Loading...</Text>
         </View>
       )}
     </SafeAreaView>

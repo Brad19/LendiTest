@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   Share,
@@ -7,8 +7,10 @@ import {
   View,
   Text,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import shareIcon from '../assets/shareIcon.png';
+import TimeLine from '../components/TimeLine';
 
 const shareContent = async data => {
   try {
@@ -30,7 +32,7 @@ const shareContent = async data => {
   }
 };
 
-const NewsPage = ({navigation, route}) => {
+const News = ({navigation, route}) => {
   const [newsData, setNewsData] = useState({});
   const {id} = route.params;
 
@@ -40,6 +42,7 @@ const NewsPage = ({navigation, route}) => {
         const response = await axios.get(
           `https://api.hackerwebapp.com/item/${id}`,
         );
+
         setNewsData(response.data);
         navigation.setOptions({headerTitle: response.data?.title});
       } catch (e) {
@@ -64,15 +67,39 @@ const NewsPage = ({navigation, route}) => {
   }, [navigation, newsData]);
 
   return (
-    <View>
-      <Text>{`Welcome to Timeline page`}</Text>
-    </View>
+    <>
+      {newsData.comments?.length > 0 ? (
+        <FlatList
+          data={newsData.comments}
+          ListHeaderComponent={() => (
+            <View style={styles.header}>
+              <Text>{newsData?.title}</Text>
+            </View>
+          )}
+          renderItem={props => <TimeLine {...props} />}
+        />
+      ) : (
+        <View style={styles.loading}>
+          <Text>Loading...</Text>
+        </View>
+      )}
+    </>
   );
 };
 
-export default NewsPage;
+export default News;
 
 const styles = StyleSheet.create({
+  header: {
+    flexGrow: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   image: {
     height: 20,
     width: 20,

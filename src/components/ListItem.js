@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   Linking,
@@ -8,46 +8,58 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import comments from '../assets/comments.png';
+import iconNormal from '../assets/icons-comments-normal.png';
+import iconBlue from '../assets/icons-comments-blue.png';
+import {storeData, removeData} from '../utility/storage';
 
-const ListItem = ({item, index}) => {
+const ListItem = ({item, index, favoriteNews}) => {
   const navigation = useNavigation();
+  const favorite =
+    favoriteNews && favoriteNews.length > 0
+      ? favoriteNews.find(favourite => favourite.id === item.id)
+      : null;
+  const [selectedFavorite, setSelectedFavorite] = useState(
+    favorite ? true : false,
+  );
+  
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => {
-        navigation.navigate('NewsPage', {id: item.id});
-      }}
-      accessibilityLabel={'newsItem'}>
-      <Text style={styles.grey}>{index}</Text>
-      <View style={styles.titleWrapper}>
-        <Text style={styles.title} accessibilityLabel={'newsTitle'}>
-          {item.title}
-        </Text>
-
-        {/* <TouchableOpacity
-          onPress={async () => {
-            if (Linking.canOpenURL(item.url)) {
-              try {
-                await Linking.openURL(item.url);
-              } catch (e) {
-                console.log('open url error', e);
-              }
-            }
-          }}> */}
-        <Text style={[styles.title, styles.url]} accessibilityLabel={'newUrl'}>
-          {item.url}
-        </Text>
-      </View>
-      <View style={styles.imageWrapper}>
+    <View style={styles.container} key={item.id}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => {
+          navigation.navigate('NewsPage', {id: item.id});
+        }}
+        accessibilityLabel={'newsItem'}>
+        <Text style={styles.grey}>{index}</Text>
+        <View style={styles.titleWrapper}>
+          <Text style={styles.title} accessibilityLabel={'newsTitle'}>
+            {item.title}
+          </Text>
+          <Text
+            style={[styles.title, styles.url]}
+            accessibilityLabel={'newUrl'}>
+            {item.url}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          setSelectedFavorite(!selectedFavorite);
+          if (!selectedFavorite) {
+            storeData('favouriteNews', {id: item.id});
+          } else {
+            removeData('favouriteNews', {id: item.id});
+          }
+        }}
+        style={styles.imageWrapper}>
         <Image
-          source={comments}
+          source={selectedFavorite ? iconBlue : iconNormal}
           style={styles.image}
           accessibilityLabel={'commentsImage'}
         />
         <Text style={{color: 'grey'}}>{item.comments_count}</Text>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -61,10 +73,11 @@ const styles = StyleSheet.create({
   imageWrapper: {
     flexGrow: 0.1,
     alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   image: {
-    height: 20,
-    width: 20,
+    height: 25,
+    width: 25,
     tintColor: 'steelblue',
   },
   titleWrapper: {
