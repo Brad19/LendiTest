@@ -52,17 +52,15 @@ Considerations:
   for Search functionality
 - I've also imported couple of assets to fulfill the image requirments since the assets are not provided.
 - I've included axios library as the REST API service, which is very popular and robust.
-- I've include unit tests for coverage and make sure that the deliverables are properly tested. To help that i've used the library called react-native-testing-library
-  which is very popular and efficient in performing unit tests 
+- I've include unit tests for coverage and make sure that the deliverables are properly tested. To help that i've used the library called react-native-
+  testing-library which is very popular and efficient in performing unit tests 
+- I've taken liberty to design my own Time line to display News & comments time stamp from now (e.g. 8h, 2 days).
+- Comments are displayed in a user-friendsly visual hierarchy.
+- Save favourite news.
+- Ability to display first level comments..
   
 Improvements:
-* Due to time constraints, I could not implement  the following other advanced features in the app mentioned as an optional requirements
-  - Display News & comments time stamp from now (e.g. 8h, 2 days).
-  - Comments are displayed in a user-friendsly visual hierarchy.
-  - Save favourite news.
-  - Ability to display first level comments..
-
-- Secondly we can onboard typescript to this project.
+- We can onboard typescript to this project.
 - There is not a requirement for a state management tool for now. But in general, if the project is big, bringing some state management tool would give 
   benefits.
 - Add more unit test.
